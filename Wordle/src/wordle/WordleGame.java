@@ -5,7 +5,7 @@ import java.util.Random;
 
 
 public class WordleGame {
-	private static String[] words = {"apple", "bunny", "cheer", "dunks", "frame"};
+	private static String[] words = {"apple", "bunny", "cheer", "dunks", "frame", "gains", "giant"};
 	
 	/**
 	 * Lowercase = in word, but not in right place
@@ -15,6 +15,9 @@ public class WordleGame {
 	 * @return the display string
 	 */
 	public static String display(String actualWord, String guess) {
+		actualWord = actualWord.toLowerCase();
+		guess = guess.toLowerCase();
+		
 		char[] actual = actualWord.toCharArray();
 		char[] userGuess = guess.toCharArray();
 		char[] display = new char[5];
@@ -45,7 +48,7 @@ public class WordleGame {
 		String s = ""; 
 		
 		for (int i = 0; i < 5; i++) {
-			if (display[i] != ' ') {
+			if (display[i] != '\u0000') {
 				s = s + display[i];
 			}
 			else {
@@ -53,40 +56,69 @@ public class WordleGame {
 			}
 		}
 		
+
 		return s;
 	}
 	
 	public static void main(String[] args) {
-		Random rand = new Random();
-		
-		String randomWord = words[rand.nextInt(7)];
-		
 		Scanner s = new Scanner(System.in);
-		String guess;
-		int guesses = 0;
 		
-		System.out.print("Enter a guess (5-letter word)");
-		guess = s.next();
-		guesses++;
+		System.out.println("Instructions: 6 tries to guess a 5-letter word.\n");
+		System.out.println("An uppercase letter indicates a letter is present in the word and in the right spot.");
+		System.out.println("A lowercase letter indicates a letter is present in the word, but in the wrong spot.");
+		System.out.println("An underscore indicates that a particular letter is either not in the word or is an extra, unnecessary letter.");
 		
-		while (guesses < 6) {
-			if (guess.trim().length() != 5) {
-				System.out.print("Invalid guess. Enter a 5-letter guess: ");
-				guesses--;
-				guess = s.next();
-				continue;
-			}
+		
+		System.out.print("\nEnter 'y' to play. Enter anything else to quit: ");
+		
+		String response = s.next();
+		
+		while ("y".equals(response.trim())) {
+			boolean win = false;
 			
-			if (guess.trim().equals(randomWord)) {
-				System.out.println("Congrats! You guessed the word!");
-			}
+			Random rand = new Random();
 			
-			System.out.print("Enter a guess (5-letter word)");
-			guess = s.next();
+			String randomWord = words[rand.nextInt(7)];
+			
+			String guess;
+			int guesses = 0;
+			
+			System.out.print("Enter a guess (5-letter word): ");
+			guess = s.next().toLowerCase();
 			guesses++;
 			
+			while (guesses < 6) {
+				if (guess.trim().length() != 5) {
+					System.out.print("\nInvalid guess. Enter a 5-letter guess: ");
+					guesses--;
+					guess = s.next().toLowerCase();
+					continue;
+				}
+				
+				System.out.println("Result: " + display(randomWord, guess) + "\n");
+				
+				if (guess.trim().equals(randomWord)) {
+					System.out.println("Congrats! You guessed the word!\n");
+					win = true;
+					break;
+				}
+				
+				System.out.print("Enter a guess (5-letter word): ");
+				guess = s.next().toLowerCase();
+				guesses++;
+				
+			}
+			
+			if (!win) {
+				System.out.println("Result: " + display(randomWord, guess)  + "\n");
+				if (guess.trim().equals(randomWord)) {
+					System.out.println("Congrats! You guessed the word!\n");
+				}
+			}
+			
+			System.out.print("Enter 'y' to play again. Enter anything else to quit: ");
+			response = s.next();
 		}
-		
 	}
 
 }
