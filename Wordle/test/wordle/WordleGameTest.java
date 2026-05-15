@@ -20,5 +20,15 @@ class WordleGameTest {
 		assertEquals("_AaA_", WordleGame.display("aabaa", "caaac"));
 		
 	}
+	
+	@Test
+	void testDisplay1() {
+		assertEquals("a__le", WordleGame.display("steal", "apple"));
+		assertEquals("_____", WordleGame.display("brush", "cloak"));
+		assertEquals("WORDS", WordleGame.display("words", "words"));
+		assertEquals("heart", WordleGame.display("earth", "heart"));
+		assertEquals("baBE_", WordleGame.display("abbey", "babes"));
+		assertEquals("doO__", WordleGame.display("flood", "doors"));
+	}
 
 }

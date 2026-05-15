@@ -1,6 +1,7 @@
 package wordle;
 
 import java.util.Scanner;
+import java.util.Arrays;
 import java.util.Random;
 
 
@@ -34,8 +35,8 @@ public class WordleGame {
 		}
 		
 		for (int i = 0; i < 5; i++) {
-			if (actual[i] != ' ' && guess.contains(actualWord.substring(i, i + 1))) {
-				int index = guess.indexOf(actualWord.substring(i, i + 1));
+			if (actual[i] != ' ' && contains(userGuess, Character.valueOf(actual[i]))) {
+				int index = indexOf(userGuess, Character.valueOf(actual[i]));
 				
 				String temp = String.valueOf(actual[i]).toLowerCase();
 				display[index] = temp.charAt(0);
@@ -58,6 +59,30 @@ public class WordleGame {
 		
 
 		return s;
+	}
+	
+	private static boolean contains(char[] arr, char c) {
+		for (char ch : arr) {
+			if (ch == c) {
+				return true;
+			}
+		}
+		
+		return false;
+	}
+	
+	private static int indexOf(char[] arr, char c) {
+		int idx = 0;
+		
+		for (char ch : arr) {
+			if (ch == c) {
+				return idx;
+			}
+			
+			idx++;
+		}
+		
+		return -1;
 	}
 	
 	public static void main(String[] args) {
